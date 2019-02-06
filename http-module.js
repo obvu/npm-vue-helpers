@@ -11,7 +11,7 @@ export default function SimpleModule (moduleOptions) {
 
   // API PROXY HANDLER START
   const options = Object.assign({}, defaultModuleOptions, moduleOptions)
-  if (options.apiProxy) {
+  if (options.apiProxy && this.options.env.siteApiHost) {
     // app.use(express.json())
     app.use(bodyParser.urlencoded({ extended: false }))
     app.use('/prx/*', proxy({
