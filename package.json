@@ -1,6 +1,6 @@
 {
   "name": "obvu-vue-helpers",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,8 @@
     "url": "git+https://github.com/obvu/npm-vue-helpers.git"
   },
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "http-proxy-middleware": "^0.19.1"
   },
   "author": "",
   "license": "ISC",
