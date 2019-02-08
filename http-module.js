@@ -14,11 +14,13 @@ export default function SimpleModule (moduleOptions) {
   if (options.apiProxy && this.options.env.siteApiHost) {
     // app.use(express.json())
     app.use(bodyParser.urlencoded({ extended: false }))
-    app.use('/prx/*', proxy({
+    let baseProxyOptions = {
       target: this.options.env.siteApiHost,
       pathRewrite: { '^/api/prx/api': '/api' },
       changeOrigin: true
-    }))
+    }
+    let proxyOptions = Object.assign({}, baseProxyOptions, moduleOptions.proxyOptions)
+    app.use('/prx/*', proxy(proxyOptions))
 
     this.addServerMiddleware({ path: '/api', handler: app })
   }
