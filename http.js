@@ -27,16 +27,10 @@ export default ({ app }, inject) => {
     response => initOptions.resHandleFunc(response),
     error => initOptions.resErrorFunc(error)
   )
-  function action(opt) {
-    if (!process.server) {
-      opt.url = 'prx' + opt.url
-      opt.baseURL = '/api/'
-    }
-    return service(opt)
-  }
+
   let $http = {
     token: null,
-    get: (url, data, options) => {
+    get: function (url, data, options) {
       let axiosOpt = {
         ...options,
         ...{
@@ -45,9 +39,9 @@ export default ({ app }, inject) => {
           params: data
         }
       }
-      return action(axiosOpt)
+      return this.action(axiosOpt)
     },
-    post: (url, data, options) => {
+    post: function (url, data, options) {
       let axiosOpt = {
         ...options,
         ...{
@@ -56,8 +50,22 @@ export default ({ app }, inject) => {
           data: data
         }
       }
-      return action(axiosOpt)
+      return this.action(axiosOpt)
+    },
+    action: function (opt) {
+      if (!process.server) {
+        opt.baseURL = '/api/prx'
+      }
+      return service(opt)
+    },
+    workUrl: () => {
+      if (!process.server) {
+        return '/api/prx'
+      } else {
+        return process.env.siteApiHost
+      }
     }
   }
+
   inject('http', $http)
 }
