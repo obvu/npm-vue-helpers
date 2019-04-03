@@ -50,6 +50,7 @@ export default ({ app }, inject) => {
           data: data
         }
       }
+      console.log(process.env.siteApiHost, axiosOpt)
       return this.action(axiosOpt)
     },
     action: function (opt) {
