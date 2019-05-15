@@ -12,6 +12,11 @@ export default ({ app }, inject) => {
     resErrorFunc: error => Promise.reject(error),
     baseURL: process.env.siteApiHost
   }
+  let useProxy = true
+  <% if (!options.apiProxy) { %>
+    useProxy = false
+  <% } else { %>
+  <% } %>
 
   const initOptions = {
     ...defaultOptions
@@ -50,17 +55,16 @@ export default ({ app }, inject) => {
           data: data
         }
       }
-      console.log(process.env.siteApiHost, axiosOpt)
       return this.action(axiosOpt)
     },
     action: function (opt) {
-      if (!process.server) {
+      if (!process.server && useProxy) {
         opt.baseURL = '/api/prx'
       }
       return service(opt)
     },
     workUrl: () => {
-      if (!process.server) {
+      if (!process.server && useProxy) {
         return '/api/prx'
       } else {
         return process.env.siteApiHost
