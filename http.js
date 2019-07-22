@@ -4,6 +4,10 @@ export default ({ app }, inject) => {
   const defaultOptions = {
     // request interceptor handler
     reqHandleFunc: config => {
+      if (app.$http.token)
+        config.headers = {
+          'Authorization': 'Bearer ' + app.$http.token
+        }
       return config
     },
     reqErrorFunc: error => Promise.reject(error),
@@ -13,9 +17,9 @@ export default ({ app }, inject) => {
     baseURL: process.env.siteApiHost
   }
   let useProxy = true
-  <% if (!options.apiProxy) { %>
+    <% if (!options.apiProxy) { %>
     useProxy = false
-  <% } else { %>
+      <% } else { %>
   <% } %>
 
   const initOptions = {
