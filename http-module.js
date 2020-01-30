@@ -6,7 +6,7 @@ const app = express()
 
 export default function SimpleModule (moduleOptions) {
   var defaultModuleOptions = {
-    apiProxy: true
+    apiProxy: this.options.mode !== 'spa'
   }
 
   // API PROXY HANDLER START

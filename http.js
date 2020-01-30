@@ -17,8 +17,9 @@ export default (context, inject) => {
     resErrorFunc: error => Promise.reject(error),
     baseURL: process.env.siteApiHost
   }
-  let useProxy = !context.isStatic
-    <% if (!options.apiProxy) { %>
+  let useProxy = true
+    <% console.log({ options })
+  if (!options.apiProxy) { %>
     useProxy = false
       <% } else { %>
   <% } %>
@@ -26,9 +27,9 @@ export default (context, inject) => {
   const initOptions = {
     ...defaultOptions
   }
+  initOptions.baseURL = useProxy ? '/api/prx' : process.env.siteApiHost
 
   const service = axios.create(initOptions)
-
   service.interceptors.request.use(
     config => initOptions.reqHandleFunc(config),
     error => initOptions.reqErrorFunc(error)
