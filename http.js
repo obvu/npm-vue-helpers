@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-export default ({ app }, inject) => {
+export default (context, inject) => {
+  let { app } = context
   const defaultOptions = {
     // request interceptor handler
     reqHandleFunc: config => {
@@ -16,7 +17,7 @@ export default ({ app }, inject) => {
     resErrorFunc: error => Promise.reject(error),
     baseURL: process.env.siteApiHost
   }
-  let useProxy = true
+  let useProxy = !context.isStatic
     <% if (!options.apiProxy) { %>
     useProxy = false
       <% } else { %>
